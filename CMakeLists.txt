@@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 3.0.0)
 set(PATCH_VERSION 1 CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
-project(task02_ip_filter VERSION ${PROJECT_VERSION})
+project(task03_allocator VERSION ${PROJECT_VERSION})
 
 set(PROJECT_NAME_TEST ${PROJECT_NAME}_test)
-set(SRC_H   Utils.h Structures.h)
-set(SRC_CPP Structures.cpp)
+set(SRC_H   Utils.h CCustomAllocator.h CLinkedVector.h)
+set(SRC_CPP )
 
 # cli
 add_executable(${PROJECT_NAME} ${SRC_H} ${SRC_CPP} main.cpp)

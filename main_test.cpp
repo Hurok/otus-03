@@ -44,7 +44,7 @@ TEST(Main, LinkedVectorInit) {
     const auto size = 10;
     for (auto i = 0; i < size; i++) {
         container.push_back(i);
-        EXPECT_EQ(container.size(), i/* + 1*/);
+        EXPECT_EQ(container.size(), i + 1);
         EXPECT_EQ(container.at(i), i);
     }
 

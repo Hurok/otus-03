@@ -15,6 +15,8 @@
 template <typename T, typename Allocator = std::allocator<T>, int ExtendElemCount = 8 >
 class CLinkedVector
 {
+    using AllocatorTraits = std::allocator_traits<Allocator>;
+
 public:
     template <typename TValue>
     struct SIterator
@@ -90,7 +92,7 @@ public:
                 m_data[i].~T();
             }
 
-            m_alloc.deallocate(m_data, capacity());
+            AllocatorTraits::deallocate(m_alloc, m_data, capacity());
             m_capacity = 0;
             m_size = 0;
         }
@@ -108,7 +110,7 @@ public:
         if (idx >= size() || idx < 0)
             throw std::out_of_range("");
 
-        return *m_data[idx];
+        return m_data[idx];
     }
 
     std::size_t capacity() const noexcept {
@@ -117,15 +119,16 @@ public:
 
     void shrink_to_fit() noexcept {
         if (capacity() > 0) {
-            auto buffer = m_alloc.allocate(size());
+            auto buffer = AllocatorTraits::allocate(m_alloc, size());
 
             for (std::size_t i; i < size(); ++i) {
-                m_alloc.construct(&buffer[i]);
+                AllocatorTraits::construct(m_alloc, &buffer[i]);
                 buffer[i] = m_data[i];
 
                 m_data[i].~T();
             }
-            m_alloc.deallocate(m_data, capacity());
+
+            AllocatorTraits::deallocate(m_alloc, m_data, capacity());
 
             m_data = buffer;
             m_capacity = size();
@@ -137,17 +140,18 @@ public:
             reserve(ExtendElemCount);
         }
 
+        AllocatorTraits::construct(m_alloc, &m_data[size()]);
         m_data[size()] = val;
         m_size++;
     }
 
     void reserve(std::size_t count) noexcept {
         if (!m_data) {
-            m_data = m_alloc.allocate(capacity() + count);
+            m_data = AllocatorTraits::allocate(m_alloc, capacity() + count);
         } else {
-            auto temp = m_alloc.allocate(capacity() + count);
+            auto temp = AllocatorTraits::allocate(m_alloc, capacity() + count);
             std::memcpy(temp, m_data, sizeof(T) * size());
-            m_alloc.deallocate(m_data, capacity());
+            AllocatorTraits::deallocate(m_alloc, m_data, capacity());
 
             m_data = temp;
         }

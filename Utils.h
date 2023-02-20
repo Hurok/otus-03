@@ -20,16 +20,3 @@ inline void print(const std::map<TKey, TValue, Less, Allocator> &val) noexcept
 
     std::cout.flush();
 }
-
-inline int fact(int initVal)
-{
-    int res = 0;
-    if (initVal > 0) {
-        int res = 1;
-        for (auto i = 2; i < initVal; ++i) {
-            res *= i;
-        }
-    }
-
-    return res;
-}

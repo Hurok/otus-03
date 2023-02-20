@@ -10,7 +10,7 @@
  * \param AreaSizeBytes - размер одной арены в байтах. При превышении будет сгенерировано исключение std::bad_allocate.
  * \param MaxAreasCount - максимальное количество создаваемы арен размером AreaSizeBytes. При превышении будет сгенерировано исключение std::bad_allocate.
  */
-template <typename T, std::size_t AreaSizeBytes = 128, std::size_t MaxAreasCount = 128>
+template <typename T, std::size_t AreaSizeBytes = 1024, std::size_t MaxAreasCount = 128>
 class CCustomAllocator
 {
     /*!

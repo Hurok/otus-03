@@ -2,6 +2,28 @@
 #include "CLinkedVector.h"
 #include "CCustomAllocator.h"
 
+struct SItem
+{
+    int v1;
+    std::string v2;
+    bool v3;
+    int v4;
+
+    bool operator == (const SItem &other) const noexcept {
+        return v1 == other.v1 && v2 == other.v2 && v3 == other.v3 && v4 == other.v4;
+    }
+};
+
+SItem genItem() {
+    SItem res;
+    res.v1 = std::rand();
+    res.v2 = std::to_string(std::rand());
+    res.v3 = res.v1 % 2;
+    res.v4 = std::rand();
+
+    return res;
+}
+
 inline void fill(CLinkedVector<int, CCustomAllocator<int> > &inOut, std::size_t count) {
     for (std::size_t i = 0; i < count; i++) {
         inOut.push_back(i);
@@ -80,6 +102,26 @@ TEST(CustomAllocator, at) {
             const auto val = std::to_string(i + i);
             vec.push_back(val);
             EXPECT_EQ(vec.at(i), val);
+        }
+    }
+
+    // SItem
+    {
+        CLinkedVector<SItem, CCustomAllocator<SItem> > vec;
+        for (auto i = 0; i < 5; i++) {
+            auto val = genItem();
+            vec.push_back(val);
+            EXPECT_EQ(vec.at(i), val);
+        }
+    }
+
+    // SItem *
+    {
+        CLinkedVector<SItem *, CCustomAllocator<SItem *> > vec;
+        for (auto i = 0; i < 5; i++) {
+            auto val = new SItem(genItem());
+            vec.push_back(val);
+            EXPECT_EQ(*vec.at(i), *val);
         }
     }
 }

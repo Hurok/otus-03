@@ -62,8 +62,8 @@ public:
         TValue *m_last = nullptr;
     };
 
-    typedef SIterator<T> iterator;
-    typedef SIterator<const T> const_iterator;
+    using iterator = SIterator<T>;
+    using const_iterator = SIterator<const T>;
 
     iterator begin() noexcept {
         return iterator{ m_data, size() };

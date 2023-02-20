@@ -14,7 +14,7 @@ int main(int, char**) {
             mapDefaultAllocator.emplace(std::make_pair(i, static_cast<int>(boost::math::factorial<double>(i))));
         }
 
-//        print(mapDefaultAllocator);
+        print(mapDefaultAllocator);
 
         // 2 - custom allocator
         std::map<int, int, std::less<int>, CCustomAllocator<std::pair<int, int> > > mapCustomAllocator;
@@ -24,7 +24,6 @@ int main(int, char**) {
         }
 
         print(mapCustomAllocator);
-        return 0;
 
         // 3 - custom container
         CLinkedVector<int> customContainer;
@@ -35,7 +34,7 @@ int main(int, char**) {
         print(customContainer);
 
         // 4 - custom container with custom allocator
-        CLinkedVector<int, CCustomAllocator<int>, 1> customContainerAlloc;
+        CLinkedVector<int, CCustomAllocator<int> > customContainerAlloc;
         for (int i = 0; i < kCountElements; ++i) {
             customContainerAlloc.push_back(i);
         }

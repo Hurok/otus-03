@@ -64,8 +64,8 @@ public:
             throw std::bad_alloc();
 
         // Пересчет счетчиков арены (приведение к uint8_t для отключения ворнинга)
-        auto ptrBytes = reinterpret_cast<uint8_t *>(area->begin);
-        ptrBytes += countBytes;
+        auto ptrBytes = reinterpret_cast<uint8_t **>(&area->begin);
+        *ptrBytes += countBytes;
         area->leftBytes -= countBytes;
 
         return reinterpret_cast<T *>(ptr);
